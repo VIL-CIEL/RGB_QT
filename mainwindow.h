@@ -5,6 +5,12 @@
 #include <QStringListModel>
 #include <QLabel>
 
+#include "mylabel.h"
+
+#include <QFileDialog>
+#include <QFile>
+#include <QFileInfo>
+
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -36,15 +42,30 @@ private slots:
 
     void on_pushButton_conserver_clicked();
 
+
+    void newFile(); // Slot pour actionNew
+
+    void open(); // Slot pour actionOpen
+
+    bool save(); // Slot pour actionSave
+
+    bool saveAs(); // Slot pour actionSave_As
+
+    void about(); // Slot pour actionAbout
+
+    void documenWasModified(); // Slot pour centralwidget
+
 private:
     Ui::MainWindow *ui;
-    void RGBAdjust(); // Met à jour le label couleur en fonction de la couleur actuelle
     void Init(); // Initialise les sliders à 255 chacun
     void ColorChoice(QModelIndex model); // Met à jour le label couleurs et les sliders à la
                                          // nouvelle couleur choisi dans la liste préfabriqué
 
     QStringListModel *modeleCouleurs; // Model de liste des couleurs préfabriqué
     int circularIncrementation; // Compteur pour la logique de conservation de couleur
-    QLabel* ColorConcerve[6]; // Tableau de QLabel pour les 6 label de conservation de couleur
+    MyLabel* ColorConcerve[6]; // Tableau de QLabel pour les 6 label de conservation de couleur
+
+    QString currentFile; // Le nom du fichier en cours d'utilisation
+
 };
 #endif // MAINWINDOW_H

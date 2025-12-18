@@ -17,7 +17,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>RGB Viewer v2</string>
+   <string>RGB Viewer v4</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QMainWindow{
@@ -272,10 +272,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -294,10 +298,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -316,10 +324,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -342,10 +354,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -364,10 +380,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -386,10 +406,14 @@ background-color:rgb(210, 210, 210);
            <bold>true</bold>
           </font>
          </property>
+         <property name="acceptDrops">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>false</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+          <string notr="true">border : 1px solid;</string>
          </property>
          <property name="text">
           <string/>
@@ -422,23 +446,20 @@ background-color:rgb(210, 210, 210);
          <bold>true</bold>
         </font>
        </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
        <property name="styleSheet">
-        <string notr="true">QLabel{
-	border: 1px solid;
-}</string>
+        <string notr="true">border : 2px solid rgb(0, 85, 255);</string>
        </property>
        <property name="text">
         <string>COLOR</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignmentFlag::AlignCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_conserver">
-       <property name="text">
-        <string>Conserver</string>
        </property>
       </widget>
      </item>

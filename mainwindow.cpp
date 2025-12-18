@@ -6,7 +6,10 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    Init();
+
+    labelParDefault = ui->label_color; // Init label par default
+
+    Init(); // Valeurs des sliders à 255
 
     // Init la liste de couleurs préfabriqué
     QStringList listeCouleurs = QColor::colorNames();
@@ -43,6 +46,26 @@ MainWindow::MainWindow(QWidget *parent)
     //
 
     ui->label_name_current_file->setText("---"); // Met à none le nom du fichier ouvert actuelement
+
+    // Init Connect pour double click
+    connect(ui->label_color, SIGNAL(doubleClicked()), this, SLOT(conserver_couleur()));
+    for (int i = 0; i < 6; ++i) {
+        connect(ColorConcerve[i], SIGNAL(doubleClicked()), this, SLOT(utiliser_couleur()));
+    }
+    //
+
+    // Init Connect Clicked
+    connect(ui->label_color, SIGNAL(clicked()), this, SLOT(changerLabelParDefault()));
+    for (int i = 0; i < 6; ++i) {
+        connect(ColorConcerve[i], SIGNAL(clicked()), this, SLOT(changerLabelParDefault()));
+    }
+    //
+
+    // Init Connect changed
+    for (int i = 0; i < 6; ++i) {
+        connect(ColorConcerve[i], SIGNAL(changed()), this, SLOT(modifParDrop()));
+    }
+    //
 }
 
 MainWindow::~MainWindow()
@@ -55,7 +78,7 @@ void MainWindow::on_verticalSlider_red_valueChanged(int value)
 {
     ui->spinBox_red->setValue(value); // Associe la valeur du slider à la valeur du spinbox
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -64,7 +87,7 @@ void MainWindow::on_spinBox_red_valueChanged(int arg1)
 {
     ui->verticalSlider_red->setValue(arg1); // Associe la valeur du spinbox à la valeur du slider
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -73,7 +96,7 @@ void MainWindow::on_verticalSlider_green_valueChanged(int value)
 {
     ui->spinBox_green->setValue(value); // Associe la valeur du slider à la valeur du spinbox
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -82,7 +105,7 @@ void MainWindow::on_spinBox_green_valueChanged(int arg1)
 {
     ui->verticalSlider_green->setValue(arg1); // Associe la valeur du spinbox à la valeur du slider
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -91,7 +114,7 @@ void MainWindow::on_verticalSlider_blue_valueChanged(int value)
 {
     ui->spinBox_blue->setValue(value); // Associe la valeur du slider à la valeur du spinbox
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -100,7 +123,7 @@ void MainWindow::on_spinBox_blue_valueChanged(int arg1)
 {
     ui->verticalSlider_blue->setValue(arg1); // Associe la valeur du spinbox à la valeur du slider
     // Met à jour le label couleur avec la nouvelle couleur
-    ui->label_color->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
+    labelParDefault->setColor(ui->verticalSlider_red->value(), ui->verticalSlider_green->value(), ui->verticalSlider_blue->value());
     //
 }
 
@@ -120,7 +143,7 @@ void MainWindow::ColorChoice(QModelIndex model)
     ui->verticalSlider_red->setValue(newColor.red()); // Recupère et associe le code rouge
     ui->verticalSlider_green->setValue(newColor.green()); // Recupère et associe le code vert
     ui->verticalSlider_blue->setValue(newColor.blue()); // Recupère et associe le code bleu
-    ui->label_color->setColor(newColor); // Met à jour le label couleur
+    labelParDefault->setColor(newColor); // Met à jour le label couleur
 }
 
 void MainWindow::on_listView_colorNames_clicked(const QModelIndex &index)
@@ -129,7 +152,7 @@ void MainWindow::on_listView_colorNames_clicked(const QModelIndex &index)
 }
 
 
-void MainWindow::on_pushButton_conserver_clicked()
+void MainWindow::conserver_couleur()
 {
     // Recupère la couleur actuelle
     QPalette palette;
@@ -154,6 +177,47 @@ void MainWindow::on_pushButton_conserver_clicked()
     }
     //
 
+    ui->label_name_current_file->setStyleSheet("color:rgb(0, 85, 255);"); // Montre que le fichier a été modifié et pas sauvagardé
+}
+
+void MainWindow::utiliser_couleur()
+{
+    MyLabel *label = static_cast<MyLabel *>(sender()); // Recupere le MyLabel
+
+    QColor currentColor(label->text()); // Recupere la couleur du label
+
+    labelParDefault->setColor(currentColor); // Change le label principal
+
+    // Change les valeurs des sliders
+    ui->verticalSlider_red->setValue(currentColor.red());
+    ui->verticalSlider_green->setValue(currentColor.green());
+    ui->verticalSlider_blue->setValue(currentColor.blue());
+    //
+}
+
+void MainWindow::changerLabelParDefault()
+{
+    // Recupere le MyLabel qui va devenir le nouveau label par default
+    MyLabel *label = static_cast<MyLabel *>(sender());
+    //
+
+    // Reinitialise le CSS de l'ancien label
+    labelParDefault->setStyleSheet("border : 1px solid;");
+    if(labelParDefault->color() != "")
+        labelParDefault->colorAdjust(); // Besoin de re-ajuster car la couleur disparait
+    //
+
+    labelParDefault = label; // Nouveau label par default
+
+    // Initialise le CSS du nouvau label
+    labelParDefault->setStyleSheet("border : 2px solid rgb(0, 85, 255);");
+    if(labelParDefault->color() != "")
+        labelParDefault->colorAdjust(); // Besoin de re-ajuster car la couleur disparait
+    //
+}
+
+void MainWindow::modifParDrop()
+{
     ui->label_name_current_file->setStyleSheet("color:rgb(0, 85, 255);"); // Montre que le fichier a été modifié et pas sauvagardé
 }
 
@@ -254,6 +318,7 @@ bool MainWindow::save()
             else
             {
                 file.close();
+                QMessageBox::warning(this, "ATTENTION", "Un problème est survenu\nLe fichier n'a pas été sauvegardé");
                 return false;
             }
         }
@@ -288,6 +353,7 @@ bool MainWindow::saveAs()
             else
             {
                 file.close();
+                QMessageBox::warning(this, "ATTENTION", "Un problème est survenu\nLe fichier n'a pas été sauvegardé");
                 return false;
             }
 
@@ -301,9 +367,3 @@ void MainWindow::about()
 {
 
 }
-
-void MainWindow::documenWasModified()
-{
-
-}
-
